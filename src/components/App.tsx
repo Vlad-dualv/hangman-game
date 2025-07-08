@@ -10,9 +10,9 @@ function getWord() {
 }
 
 export default function App() {
-  const [wordToGuess, setWordToGuess] = useState(getWord);
+  const [wordToGuess, setWordToGuess] = useState(getWord());
 
-  const [guessedLetters, setGuessedLetters] = useState<string>([]);
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const incorrectLetters = guessedLetters.filter(
     (letter) => !wordToGuess.includes(letter)
@@ -34,15 +34,15 @@ export default function App() {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const key = e.key;
-      if (!key.match(/^[a-z]$/)) return;
+      if (!key.match(/^[a-zA-Z]$/)) return;
       e.preventDefault();
-      addGuessedLetter(key);
+      addGuessedLetter(key.toLowerCase());
     };
     document.addEventListener("keypress", handler);
     return () => {
       document.removeEventListener("keypress", handler);
     };
-  }, [guessedLetters]);
+  }, [addGuessedLetter]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -56,7 +56,7 @@ export default function App() {
     return () => {
       document.removeEventListener("keypress", handler);
     };
-  });
+  }, []);
 
   return (
     <div
@@ -65,7 +65,7 @@ export default function App() {
         display: "flex",
         flexDirection: "column",
         gap: "2rem",
-        margin: "0 auto",
+        margin: "100px auto",
         alignItems: "center",
       }}
     >
@@ -74,7 +74,11 @@ export default function App() {
         {isLoser && "Nice Try! Refresh to start again"}
       </div>
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
-      <HangmanWord reveal={isLoser} />
+      <HangmanWord
+        reveal={isLoser}
+        guessedLetters={guessedLetters}
+        wordToGuess={wordToGuess}
+      />
       <div style={{ alignSelf: "stretch" }}>
         <Keyboard
           disabled={isWinner || isLoser}

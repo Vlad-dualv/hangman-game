@@ -30,7 +30,7 @@ const KEYS = [
 ];
 
 type KeyboardProps = {
-  disabled?: boolean
+  disabled?: boolean;
   activeLetters: string[];
   inactiveLetters: string[];
   addGuessedLetter: (letter: string) => void;
@@ -40,7 +40,7 @@ export default function Keyboard({
   activeLetters,
   inactiveLetters,
   addGuessedLetter,
-  disabled = false
+  disabled = false,
 }: KeyboardProps) {
   return (
     <div
@@ -52,17 +52,19 @@ export default function Keyboard({
     >
       {KEYS.map((key) => {
         const isActive = activeLetters.includes(key);
-        const isInactive = inactiveLetters.includes(key)
-        <button
-          onClick={() => addGuessedLetter(key)}
-          type="button"
-          className={`${css.btn} ${isActive ? css.active : ""}
-          ${isInactive ? css.inactive : ""}`}
-          disabled={isActive || isInactive || disabled}
-          key={key}
-        >
-          {key}
-        </button>;
+        const isInactive = inactiveLetters.includes(key);
+        return (
+          <button
+            onClick={() => addGuessedLetter(key)}
+            type="button"
+            className={`${css.btn} ${isActive ? css.active : ""}
+      ${isInactive ? css.inactive : ""}`}
+            disabled={isActive || isInactive || disabled}
+            key={key}
+          >
+            {key}
+          </button>
+        );
       })}
     </div>
   );
