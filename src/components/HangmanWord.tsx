@@ -8,7 +8,7 @@ export default function HangmanWord({
   guessedLetters,
   wordToGuess,
   reveal = false,
-}): HangmanWordProps {
+}: HangmanWordProps) {
   return (
     <div
       style={{
