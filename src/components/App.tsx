@@ -1,4 +1,3 @@
-import "./App.css";
 import words from "../assets/wordList.json";
 import { useCallback, useEffect, useState } from "react";
 import HangmanDrawing from "./HangmanDrawing";
